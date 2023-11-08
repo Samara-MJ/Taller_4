@@ -2,6 +2,7 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import uniandes.dpoo.taller4.modelo.RegistroTop10;
 import uniandes.dpoo.taller4.modelo.Tablero;
 import uniandes.dpoo.taller4.modelo.Top10;
 
@@ -32,6 +34,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JDialog;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class Fprincipal {
 
@@ -298,7 +304,32 @@ public class Fprincipal {
 	}
 
 	public void mostrarTop10() {
+		jugadores.agregarRegistro(nombreActual, tablero.calcularPuntaje());
+		JDialog modalDialog = new JDialog(frame, "TOP-10", true);
+		JPanel contentPanel = new JPanel(new GridLayout(10, 3));
+		int index = 1;
+				for (RegistroTop10 item: jugadores.darRegistros()) {
+					JLabel label = new JLabel(index + " " + item.darNombre() + " " + item.darPuntos() );
+					label.setHorizontalAlignment(SwingConstants.CENTER);
+					contentPanel.add(label);
+					index ++;
+					
+				}
+		JLabel label = new JLabel("Elemento ");
+		JScrollPane scrollPane = new JScrollPane(contentPanel);
 
+		// Configurar el tamaño del JScrollPane
+		scrollPane.setPreferredSize(new Dimension(300, 150));
+
+		modalDialog.add(scrollPane);
+
+		// Configurar el tamaño del diálogo
+		modalDialog.setSize(350, 200);
+
+		// Hacer visible el diálogo modal
+		modalDialog.setVisible(true);
+		
+		centro.add(modalDialog);
 	}
 
 	public static void main(String[] args) throws HeadlessException {
